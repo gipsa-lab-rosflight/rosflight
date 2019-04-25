@@ -56,6 +56,7 @@
 #include <sensor_msgs/Range.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/TimeReference.h>
+#include <sensor_msgs/BatteryState.h>
 
 #include <std_srvs/Trigger.h>
 
@@ -117,6 +118,7 @@ private:
   void handle_named_value_float_msg(const mavlink_message_t &msg);
   void handle_named_command_struct_msg(const mavlink_message_t &msg);
   void handle_small_range_msg(const mavlink_message_t &msg);
+  void handle_small_battery_msg(const mavlink_message_t &msg);
   void handle_version_msg(const mavlink_message_t &msg);
 
   // ROS message callbacks
@@ -175,6 +177,8 @@ private:
   ros::Publisher status_pub_;
   ros::Publisher version_pub_;
   ros::Publisher lidar_pub_;
+  ros::Publisher battery_pub_;
+	
   std::map<std::string, ros::Publisher> named_value_int_pubs_;
   std::map<std::string, ros::Publisher> named_value_float_pubs_;
   std::map<std::string, ros::Publisher> named_command_struct_pubs_;

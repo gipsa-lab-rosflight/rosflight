@@ -175,6 +175,9 @@ namespace rosflight_io {
       case MAVLINK_MSG_ID_SMALL_RANGE:
         handle_small_range_msg(msg);
         break;
+      case MAVLINK_MSG_ID_SMALL_BATTERY:
+        handle_small_battery_msg(msg);
+        break;
       case MAVLINK_MSG_ID_ROSFLIGHT_VERSION:
         handle_version_msg(msg);
         break;
@@ -733,6 +736,23 @@ namespace rosflight_io {
         break;
     }
 
+  }
+
+	
+  void rosflightIO::handle_small_battery_msg(const mavlink_message_t &msg) {
+    mavlink_small_battery_t battery;
+    mavlink_msg_small_battery_decode(&msg, &battery);
+		
+    sensor_msgs::BatteryState bat_msg;
+    bat_msg.header.stamp = ros::Time::now();
+		bat_msg.voltage = battery.voltage;
+		bat_msg.percentage = battery.percent;
+		
+		if (battery_pub_.getTopic().empty()) {
+			battery_pub_ = nh_.advertise<sensor_msgs::BatteryState>("battery", 1);
+		}
+
+		battery_pub_.publish(bat_msg);
   }
 
   void rosflightIO::handle_version_msg(const mavlink_message_t &msg) {
