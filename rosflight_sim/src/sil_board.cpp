@@ -364,6 +364,30 @@ float SIL_Board::sonar_read(void)
     return alt + sonar_stdev_*normal_distribution_(random_generator_);
 }
 
+bool SIL_Board::gnss_present(void)
+{
+	return false;
+}
+
+void SIL_Board::gnss_update(void) { }
+	
+rosflight_firmware::GNSSData SIL_Board::gnss_read(void)
+{
+	rosflight_firmware::GNSSData data;
+	return data;
+}
+
+bool SIL_Board::gnss_has_new_data(void)
+{
+	return false;
+}
+
+rosflight_firmware::GNSSRaw SIL_Board::gnss_raw_read(void)
+{
+	rosflight_firmware::GNSSRaw data;
+	return data;
+}
+
 // PWM
 void SIL_Board::pwm_init(uint32_t refresh_rate, uint16_t idle_pwm)
 {
@@ -468,6 +492,17 @@ void SIL_Board::led0_toggle(void) { }
 void SIL_Board::led1_on(void) { }
 void SIL_Board::led1_off(void) { }
 void SIL_Board::led1_toggle(void) { }
+
+// Battery Voltage
+bool SIL_Board::battery_voltage_present(void)
+{
+	return false;
+}
+void SIL_Board::battery_voltage_update(void) { }
+float SIL_Board::battery_voltage_read(void)
+{
+	return 0.f;
+}
 
 bool SIL_Board::has_backup_data(void)
 {

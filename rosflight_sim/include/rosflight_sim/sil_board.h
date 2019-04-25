@@ -157,6 +157,13 @@ public:
   float sonar_read(void) override;
   void sonar_update(void) override {};
 
+  bool gnss_present(void) override;
+  void gnss_update(void) override;
+	
+	rosflight_firmware::GNSSData gnss_read(void) override;
+  bool gnss_has_new_data(void) override;
+  rosflight_firmware::GNSSRaw gnss_raw_read(void) override;
+
   // PWM
   // TODO make these deal in normalized (-1 to 1 or 0 to 1) values (not pwm-specific)
   void pwm_init(uint32_t refresh_rate, uint16_t idle_pwm) override;
@@ -182,7 +189,12 @@ public:
   void led1_on(void) override;
   void led1_off(void) override;
   void led1_toggle(void) override;
-
+	
+	// Battery Voltage
+	bool battery_voltage_present(void) override;
+	void battery_voltage_update(void) override;
+	float battery_voltage_read(void) override;
+	
   //Backup Memory
   bool has_backup_data(void) override;
   rosflight_firmware::BackupData get_backup_data(void) override;
