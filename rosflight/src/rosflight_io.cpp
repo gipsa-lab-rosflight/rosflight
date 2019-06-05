@@ -810,7 +810,7 @@ void rosflightIO::handle_multi_range_msg(const mavlink_message_t &msg) {
   multi_range_msg.header.stamp = ros::Time::now();
 	multi_range_msg.ranges.resize(multi_range.nb_ranges);
 	
-	ROS_INFO_STREAM("handle MultiRange Message " << (int)multi_range.nb_ranges);
+	//ROS_INFO_STREAM("handle MultiRange Message " << (int)multi_range.nb_ranges);
 	for(int i=0; i<multi_range.nb_ranges; i++)
 	{
 		multi_range_msg.ranges[i] = multi_range.ranges[i]/1000.f;
