@@ -388,6 +388,14 @@ rosflight_firmware::GNSSRaw SIL_Board::gnss_raw_read(void)
 	return data;
 }
 
+//MULTI_RANGE
+bool SIL_Board::multi_range_present() {return false;}
+void SIL_Board::multi_range_update() {}
+bool SIL_Board::multi_range_has_new_data() {return false;}
+uint8_t SIL_Board::multi_range_get_nb_sensors() {return 0;}
+void SIL_Board::multi_range_read(uint16_t*) {}
+
+
 // PWM
 void SIL_Board::pwm_init(uint32_t refresh_rate, uint16_t idle_pwm)
 {
@@ -492,6 +500,10 @@ void SIL_Board::led0_toggle(void) { }
 void SIL_Board::led1_on(void) { }
 void SIL_Board::led1_off(void) { }
 void SIL_Board::led1_toggle(void) { }
+
+//BUZZER
+void SIL_Board::buzzer_on() {}
+void SIL_Board::buzzer_off() {}
 
 // Battery Voltage
 bool SIL_Board::battery_voltage_present(void)

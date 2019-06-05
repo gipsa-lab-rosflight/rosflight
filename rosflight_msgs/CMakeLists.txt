@@ -20,6 +20,7 @@ add_message_files(
   GNSS.msg
   GNSSRaw.msg
   Error.msg
+	MultiRange.msg
 )
 
 add_service_files(

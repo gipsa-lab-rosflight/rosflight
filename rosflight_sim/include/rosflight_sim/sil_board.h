@@ -164,6 +164,13 @@ public:
   bool gnss_has_new_data(void) override;
   rosflight_firmware::GNSSRaw gnss_raw_read(void) override;
 
+	//MULTI_RANGE
+	bool multi_range_present() override;
+	void multi_range_update() override;
+	bool multi_range_has_new_data() override;
+	uint8_t multi_range_get_nb_sensors() override;
+	void multi_range_read(uint16_t *ranges) override;
+
   // PWM
   // TODO make these deal in normalized (-1 to 1 or 0 to 1) values (not pwm-specific)
   void pwm_init(uint32_t refresh_rate, uint16_t idle_pwm) override;
@@ -190,6 +197,10 @@ public:
   void led1_off(void) override;
   void led1_toggle(void) override;
 	
+	// BUZZER
+	void buzzer_on() override;
+	void buzzer_off() override;
+
 	// Battery Voltage
 	bool battery_voltage_present(void) override;
 	void battery_voltage_update(void) override;

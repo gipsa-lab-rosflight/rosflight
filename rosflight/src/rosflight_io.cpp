@@ -185,19 +185,22 @@ void rosflightIO::handle_mavlink_message(const mavlink_message_t &msg)
       break;
     case MAVLINK_MSG_ID_SMALL_RANGE:
       handle_small_range_msg(msg);
-        break;
-      case MAVLINK_MSG_ID_SMALL_BATTERY:
-        handle_small_battery_msg(msg);
+			break;
+    case MAVLINK_MSG_ID_ROSFLIGHT_MULTI_RANGE:
+      handle_multi_range_msg(msg);
+			break;
+	  case MAVLINK_MSG_ID_SMALL_BATTERY:
+			handle_small_battery_msg(msg);
       break;
     case MAVLINK_MSG_ID_ROSFLIGHT_VERSION:
       handle_version_msg(msg);
       break;
-      case MAVLINK_MSG_ID_ROSFLIGHT_GNSS:
-        handle_rosflight_gnss_msg(msg);
-        break;
-      case MAVLINK_MSG_ID_ROSFLIGHT_GNSS_RAW:
-        handle_rosflight_gnss_raw_msg(msg);
-        break;
+	  case MAVLINK_MSG_ID_ROSFLIGHT_GNSS:
+			handle_rosflight_gnss_msg(msg);
+			break;
+	  case MAVLINK_MSG_ID_ROSFLIGHT_GNSS_RAW:
+			handle_rosflight_gnss_raw_msg(msg);
+			break;
     case MAVLINK_MSG_ID_PARAM_VALUE:
     case MAVLINK_MSG_ID_TIMESYNC:
       // silently ignore (handled elsewhere)
@@ -799,7 +802,27 @@ void rosflightIO::handle_small_mag_msg(const mavlink_message_t &msg)
 
 }
 
+void rosflightIO::handle_multi_range_msg(const mavlink_message_t &msg) {
+	mavlink_rosflight_multi_range_t multi_range;
+  mavlink_msg_rosflight_multi_range_decode(&msg, &multi_range);
+
+  rosflight_msgs::MultiRange multi_range_msg;
+  multi_range_msg.header.stamp = ros::Time::now();
+	multi_range_msg.ranges.resize(multi_range.nb_ranges);
 	
+	ROS_INFO_STREAM("handle MultiRange Message " << (int)multi_range.nb_ranges);
+	for(int i=0; i<multi_range.nb_ranges; i++)
+	{
+		multi_range_msg.ranges[i] = multi_range.ranges[i]/1000.f;
+	}
+	
+	if (multi_range_pub_.getTopic().empty())
+	{
+		multi_range_pub_ = nh_.advertise<rosflight_msgs::MultiRange>("multi_range", 1);
+	}
+	multi_range_pub_.publish(multi_range_msg);
+}
+
   void rosflightIO::handle_small_battery_msg(const mavlink_message_t &msg) {
     mavlink_small_battery_t battery;
     mavlink_msg_small_battery_decode(&msg, &battery);
